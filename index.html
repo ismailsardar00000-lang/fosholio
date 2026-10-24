@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fosholio | ফসলিয়ো</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f8f2;
+      color: #243528;
+    }
+    header {
+      background: #168447;
+      color: white;
+      padding: 20px 5%;
+    }
+    .brand { font-size: 29px; font-weight: bold; }
+    .tagline { margin-top: 6px; }
+    .location { margin-top: 12px; font-size: 14px; }
+    .hero {
+      padding: 35px 5%;
+      background: #e0f4df;
+      text-align: center;
+    }
+    .hero h1 { color: #126b38; }
+    .search {
+      width: 100%;
+      max-width: 500px;
+      padding: 13px;
+      border: 1px solid #ccc;
+      border-radius: 9px;
+      font-size: 16px;
+    }
+    main { padding: 20px 5%; }
+    .categories {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 10px 0 20px;
+    }
+    .categories button {
+      border: 0;
+      background: white;
+      padding: 12px 16px;
+      border-radius: 20px;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    h2 { color: #126b38; }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+      gap: 15px;
+    }
+    .product {
+      background: white;
+      border-radius: 13px;
+      padding: 15px;
+      box-shadow: 0 2px 8px #0000000d;
+    }
+    .emoji { font-size: 45px; text-align: center; }
+    .product h3 { margin-bottom: 7px; }
+    .price { color: #168447; font-weight: bold; }
+    .product button, .checkout {
+      width: 100%;
+      background: #168447;
+      color: white;
+      border: 0;
+      padding: 11px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .cart {
+      margin-top: 25px;
+      background: white;
+      border-radius: 13px;
+      padding: 20px;
+    }
+    .cart-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 7px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+    footer {
+      background: #126b38;
+      color: white;
+      text-align: center;
+      padding: 22px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">🌾 Fosholio</div>
+    <div class="tagline">ফসলিয়ো — কৃষি ও খাবার, সব এক জায়গায়</div>
+    <div class="location">📍 কপিলমুনি বাজার, পাইকগাছা, খুলনা</div>
+  </header>
+
+  <section class="hero">
+    <h1>আপনার প্রতিদিনের বাজার এখন সহজে!</h1>
+    <p>তাজা খাবার ও কৃষিপণ্য খুঁজুন এক জায়গায়।</p>
+    <input class="search" id="search" placeholder="🔎 পণ্যের নাম লিখুন..." oninput="renderProducts()">
+  </section>
+
+  <main>
+    <h2>🛍️ পণ্যের বিভাগ</h2>
+    <div class="categories">
+      <button onclick="setCategory('সব')">সব পণ্য</button>
+      <button onclick="setCategory('সবজি')">🥬 সবজি</button>
+      <button onclick="setCategory('মাছ')">🐟 মাছ</button>
+      <button onclick="setCategory('মাংস')">🍗 মাংস</button>
+      <button onclick="setCategory('কৃষি')">🌱 কৃষিপণ্য</button>
+    </div>
+
+    <h2>⭐ জনপ্রিয় পণ্য</h2>
+    <div class="products" id="products"></div>
+
+    <section class="cart">
+      <h2>🛒 আপনার কার্ট</h2>
+      <div id="cartItems">এখনো কোনো পণ্য যোগ করা হয়নি।</div>
+      <h3 id="total">মোট: ৳০</h3>
+
+      <h2>📦 অর্ডার তথ্য</h2>
+      <form id="orderForm">
+        <input id="customer" placeholder="আপনার নাম" required>
+        <input id="phone" type="tel" placeholder="মোবাইল নম্বর" required>
+        <textarea id="address" placeholder="সম্পূর্ণ ডেলিভারি ঠিকানা" required></textarea>
+        <button class="checkout" type="submit">অর্ডার দিতে WhatsApp খুলুন</button>
+      </form>
+      <p style="font-size:13px;color:#666">
+        অর্ডার পাঠানোর আগে পণ্যের দাম ও প্রাপ্যতা নিশ্চিত করা হবে।
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <strong>Fosholio (ফসলিয়ো)</strong>
+    <p>কৃষি ও খাবার, সব এক জায়গায়!</p>
+    <p>পরিচালনায়: মেসার্স কৃষি বিতান</p>
+    <p>📞 01866109745</p>
+  </footer>
+
+  <script>
+    const products = [
+      {name:"আলু",category:"সবজি",price:40,unit:"কেজি",emoji:"🥔"},
+      {name:"টমেটো",category:"সবজি",price:60,unit:"কেজি",emoji:"🍅"},
+      {name:"বেগুন",category:"সবজি",price:50,unit:"কেজি",emoji:"🍆"},
+      {name:"কাঁচা মরিচ",category:"সবজি",price:80,unit:"কেজি",emoji:"🌶️"},
+      {name:"তাজা মাছ",category:"মাছ",price:250,unit:"কেজি",emoji:"🐟"},
+      {name:"চিংড়ি",category:"মাছ",price:350,unit:"কেজি",emoji:"🦐"},
+      {name:"মুরগির মাংস",category:"মাংস",price:220,unit:"কেজি",emoji:"🍗"},
+      {name:"কৃষি বীজ",category:"কৃষি",price:80,unit:"প্যাকেট",emoji:"🌱"},
+      {name:"জৈব সার",category:"কৃষি",price:100,unit:"প্যাকেট",emoji:"🌿"}
+    ];
+
+    let selectedCategory = "সব";
+    let cart = [];
+
+    function setCategory(category) {
+      selectedCategory = category;
+      renderProducts();
+    }
+
+    function renderProducts() {
+      const query = document.getElementById("search").value.trim();
+      const filtered = products.filter(p =>
+        (selectedCategory === "সব" || p.category === selectedCategory) &&
+        p.name.includes(query)
+      );
+
+      document.getElementById("products").innerHTML = filtered.map((p, i) => `
+        <div class="product">
+          <div class="emoji">${p.emoji}</div>
+          <h3>${p.name}</h3>
+          <div class="price">৳${p.price} / ${p.unit}</div>
+          <button onclick="addToCart('${p.name}')">+ কার্টে যোগ করুন</button>
+        </div>
+      `).join("") || "<p>কোনো পণ্য পাওয়া যায়নি।</p>";
+    }
+
+    function addToCart(name) {
+      const product = products.find(p => p.name === name);
+      const item = cart.find(p => p.name === name);
+      if (item) item.qty++;
+      else cart.push({...product, qty:1});
+      renderCart();
+    }
+
+    function changeQty(name, amount) {
+      const item = cart.find(p => p.name === name);
+      if (item) item.qty += amount;
+      cart = cart.filter(p => p.qty > 0);
+      renderCart();
+    }
+
+    function renderCart() {
+      document.getElementById("cartItems").innerHTML = cart.length
+        ? cart.map(p => `
+          <div class="cart-row">
+            <span>${p.name} × ${p.qty}</span>
+            <span>
+              ৳${p.price * p.qty}
+              <button onclick="changeQty('${p.name}',-1)">−</button>
+              <button onclick="changeQty('${p.name}',1)">+</button>
+            </span>
+          </div>`).join("")
+        : "এখনো কোনো পণ্য যোগ করা হয়নি।";
+
+      const total = cart.reduce((sum,p) => sum + p.price*p.qty, 0);
+      document.getElementById("total").textContent = "মোট: ৳" + total;
+    }
+
+    document.getElementById("orderForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      if (!cart.length) {
+        alert("প্রথমে কার্টে পণ্য যোগ করুন।");
+        return;
+      }
+
+      const customer = document.getElementById("customer").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const address = document.getElementById("address").value.trim();
+      const total = cart.reduce((sum,p) => sum + p.price*p.qty, 0);
+
+      const message = [
+        "নতুন Fosholio অর্ডার",
+        "নাম: " + customer,
+        "ফোন: " + phone,
+        "ঠিকানা: " + address,
+        "পণ্য:",
+        ...cart.map(p => p.name + " × " + p.qty + " = ৳" + p.price*p.qty),
+        "মোট পণ্যমূল্য: ৳" + total,
+        "ডেলিভারি চার্জ আলাদাভাবে নিশ্চিত করতে হবে।"
+      ].join("\n");
+
+      const whatsappNumber = "8801866109745";
+      window.open("https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(message), "_blank");
+    });
+
+    renderProducts();
+  </script>
+</body>
+</html>
