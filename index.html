@@ -6,102 +6,37 @@
   <title>Fosholio | ফসলিয়ো</title>
   <style>
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f8f2;
-      color: #243528;
-    }
-    header {
-      background: #168447;
-      color: white;
-      padding: 20px 5%;
-    }
-    .brand { font-size: 29px; font-weight: bold; }
-    .tagline { margin-top: 6px; }
-    .location { margin-top: 12px; font-size: 14px; }
-    .hero {
-      padding: 35px 5%;
-      background: #e0f4df;
-      text-align: center;
-    }
-    .hero h1 { color: #126b38; }
-    .search {
-      width: 100%;
-      max-width: 500px;
-      padding: 13px;
-      border: 1px solid #ccc;
-      border-radius: 9px;
-      font-size: 16px;
-    }
-    main { padding: 20px 5%; }
-    .categories {
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      padding: 10px 0 20px;
-    }
-    .categories button {
-      border: 0;
-      background: white;
-      padding: 12px 16px;
-      border-radius: 20px;
-      white-space: nowrap;
-      cursor: pointer;
-    }
-    h2 { color: #126b38; }
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
-      gap: 15px;
-    }
-    .product {
-      background: white;
-      border-radius: 13px;
-      padding: 15px;
-      box-shadow: 0 2px 8px #0000000d;
-    }
-    .emoji { font-size: 45px; text-align: center; }
-    .product h3 { margin-bottom: 7px; }
-    .price { color: #168447; font-weight: bold; }
-    .product button, .checkout {
-      width: 100%;
-      background: #168447;
-      color: white;
-      border: 0;
-      padding: 11px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 8px;
-    }
-    .cart {
-      margin-top: 25px;
-      background: white;
-      border-radius: 13px;
-      padding: 20px;
-    }
-    .cart-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 8px 0;
-      border-bottom: 1px solid #eee;
-    }
-    input, textarea {
-      width: 100%;
-      padding: 12px;
-      margin: 7px 0;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 15px;
-    }
-    footer {
-      background: #126b38;
-      color: white;
-      text-align: center;
-      padding: 22px;
-      margin-top: 30px;
-    }
+    body { margin:0; font-family:Arial,sans-serif; background:#f5f8f2; color:#243528; }
+    header { background:#168447; color:white; padding:20px 5%; }
+    .brand { font-size:29px; font-weight:bold; }
+    .tagline { margin-top:6px; }
+    .location { margin-top:12px; font-size:14px; }
+    .hero { padding:35px 5%; background:#e0f4df; text-align:center; }
+    .hero h1 { color:#126b38; }
+    .search { width:100%; max-width:500px; padding:13px; border:1px solid #ccc; border-radius:9px; font-size:16px; }
+    main { padding:20px 5%; }
+    .categories { display:flex; gap:10px; overflow-x:auto; padding:10px 0 20px; }
+    .categories button { border:0; background:white; padding:12px 16px; border-radius:20px; white-space:nowrap; cursor:pointer; }
+    h2 { color:#126b38; }
+    .products { display:grid; grid-template-columns:repeat(auto-fit,minmax(145px,1fr)); gap:15px; }
+    .product { background:white; border-radius:13px; padding:15px; box-shadow:0 2px 8px #0000000d; }
+    .emoji { font-size:45px; text-align:center; }
+    .product h3 { margin-bottom:7px; }
+    .price { color:#168447; font-weight:bold; }
+    .product button,.checkout,.btn { width:100%; background:#168447; color:white; border:0; padding:11px; border-radius:8px; cursor:pointer; margin-top:8px; }
+    button:disabled { opacity:.55; cursor:not-allowed; }
+    .cart,.admin-panel { margin-top:25px; background:white; border-radius:13px; padding:20px; }
+    .cart-row { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid #eee; }
+    input,textarea,select { width:100%; padding:12px; margin:7px 0; border:1px solid #ccc; border-radius:8px; font-size:15px; }
+    footer { background:#126b38; color:white; text-align:center; padding:22px; margin-top:30px; }
+    .small-btn { width:auto!important; padding:5px 10px!important; margin:0 2px!important; }
+    .secondary { background:#52665a!important; }
+    .danger { background:#b3261e!important; }
+    .notice { background:#fff6d9; padding:12px; border-radius:8px; color:#614b00; line-height:1.5; }
+    .admin-head { display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+    .admin-hidden { display:none; }
+    .form-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:8px; }
+    .muted { color:#66756a; font-size:13px; }
   </style>
 </head>
 <body>
@@ -128,23 +63,68 @@
     </div>
 
     <h2>⭐ জনপ্রিয় পণ্য</h2>
+    <div id="status" class="muted" role="status">পণ্যের তথ্য লোড হচ্ছে...</div>
     <div class="products" id="products"></div>
 
     <section class="cart">
       <h2>🛒 আপনার কার্ট</h2>
       <div id="cartItems">এখনো কোনো পণ্য যোগ করা হয়নি।</div>
       <h3 id="total">মোট: ৳০</h3>
-
       <h2>📦 অর্ডার তথ্য</h2>
       <form id="orderForm">
         <input id="customer" placeholder="আপনার নাম" required>
         <input id="phone" type="tel" placeholder="মোবাইল নম্বর" required>
         <textarea id="address" placeholder="সম্পূর্ণ ডেলিভারি ঠিকানা" required></textarea>
+        <button class="btn secondary" type="button" id="gpsButton">📍 বর্তমান লোকেশন যোগ করুন</button>
+        <p id="gpsStatus" class="muted"></p>
         <button class="checkout" type="submit">অর্ডার দিতে WhatsApp খুলুন</button>
       </form>
-      <p style="font-size:13px;color:#666">
-        অর্ডার পাঠানোর আগে পণ্যের দাম ও প্রাপ্যতা নিশ্চিত করা হবে।
-      </p>
+      <p style="font-size:13px;color:#666">অর্ডার পাঠানোর আগে পণ্যের দাম ও প্রাপ্যতা নিশ্চিত করা হবে।</p>
+    </section>
+
+    <section class="admin-panel">
+      <div class="admin-head">
+        <h2>🔐 অ্যাডমিন প্যানেল</h2>
+        <button class="btn secondary small-btn" id="adminToggle">অ্যাডমিন লগইন</button>
+      </div>
+      <div id="adminArea" class="admin-hidden">
+        <div id="loginArea">
+          <p>শুধু অনুমোদিত অ্যাডমিন এখানে লগইন করতে পারবেন।</p>
+          <form id="loginForm">
+            <input id="adminEmail" type="email" placeholder="অ্যাডমিন ইমেইল" autocomplete="username" required>
+            <input id="adminPassword" type="password" placeholder="পাসওয়ার্ড" autocomplete="current-password" required>
+            <button class="checkout" type="submit">লগইন</button>
+          </form>
+          <p id="loginStatus" class="muted"></p>
+        </div>
+        <div id="manageArea" class="admin-hidden">
+          <div class="admin-head">
+            <p>লগইন হয়েছে: <strong>fosholioadmin</strong></p>
+            <button class="btn secondary small-btn" id="logoutButton">লগআউট</button>
+          </div>
+          <div class="notice">পণ্যের ছবি আপলোডের ব্যবস্থা এখনো নেই; আপাতত ইমোজি ব্যবহার করুন। নতুন পণ্য Firestore-এ সংরক্ষিত হবে।</div>
+          <h3 id="productFormTitle">নতুন পণ্য যোগ করুন</h3>
+          <form id="productForm">
+            <input id="editId" type="hidden">
+            <div class="form-grid">
+              <input id="pName" placeholder="পণ্যের নাম" required>
+              <select id="pCategory" required>
+                <option value="সবজি">সবজি</option><option value="মাছ">মাছ</option><option value="মাংস">মাংস</option><option value="কৃষি">কৃষিপণ্য</option>
+              </select>
+              <input id="pPrice" type="number" min="0" step="0.01" placeholder="দাম (টাকা)" required>
+              <input id="pUnit" placeholder="একক (যেমন কেজি)" value="কেজি" required>
+              <input id="pEmoji" placeholder="ইমোজি (যেমন 🥔)" value="🛍️" required>
+            </div>
+            <button class="checkout" type="submit">পণ্য সংরক্ষণ করুন</button>
+            <button class="btn secondary" type="button" id="cancelEdit">ফর্ম পরিষ্কার করুন</button>
+          </form>
+          <p id="adminStatus" class="muted"></p>
+          <h3>বর্তমান পণ্য পরিচালনা</h3>
+          <div id="adminProductList"></div>
+          <button class="btn secondary" id="seedButton" type="button">প্রাথমিক ৯টি পণ্য Firestore-এ যোগ করুন</button>
+          <p class="muted">এই বোতামটি শুধু তখন ব্যবহার করুন যখন Firestore-এ পণ্য নেই। এটি বিদ্যমান পণ্য মুছে ফেলবে না।</p>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -155,8 +135,22 @@
     <p>📞 01866109745</p>
   </footer>
 
-  <script>
-    const products = [
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, onSnapshot, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCiC_JmJL7zRnP1he8Y5uRwZ1J0IIzvlFw",
+      authDomain: "fosholio.firebaseapp.com",
+      projectId: "fosholio",
+      storageBucket: "fosholio.firebasestorage.app",
+      messagingSenderId: "377170925645",
+      appId: "1:377170925645:web:5b173dbafec1d9686aa404",
+      measurementId: "G-HPLFDZEZ3F"
+    };
+    const ADMIN_UID = "NknjveybvsZKm25SixBqZLk6iCz2";
+    const seedProducts = [
       {name:"আলু",category:"সবজি",price:40,unit:"কেজি",emoji:"🥔"},
       {name:"টমেটো",category:"সবজি",price:60,unit:"কেজি",emoji:"🍅"},
       {name:"বেগুন",category:"সবজি",price:50,unit:"কেজি",emoji:"🍆"},
@@ -167,92 +161,237 @@
       {name:"কৃষি বীজ",category:"কৃষি",price:80,unit:"প্যাকেট",emoji:"🌱"},
       {name:"জৈব সার",category:"কৃষি",price:100,unit:"প্যাকেট",emoji:"🌿"}
     ];
-
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    let products = [...seedProducts.map((p, i) => ({...p, id:"local-" + i}))];
     let selectedCategory = "সব";
     let cart = [];
+    let isAdmin = false;
+    let unsubscribeProducts = null;
 
-    function setCategory(category) {
-      selectedCategory = category;
-      renderProducts();
-    }
+    const $ = id => document.getElementById(id);
+    const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+    const money = n => Number(n).toLocaleString("bn-BD", {maximumFractionDigits:2});
+
+    function setStatus(text) { $("status").textContent = text; }
+    window.setCategory = category => { selectedCategory = category; renderProducts(); };
+    window.renderProducts = renderProducts;
 
     function renderProducts() {
-      const query = document.getElementById("search").value.trim();
+      const query = $("search").value.trim();
       const filtered = products.filter(p =>
         (selectedCategory === "সব" || p.category === selectedCategory) &&
-        p.name.includes(query)
+        String(p.name).includes(query)
       );
-
-      document.getElementById("products").innerHTML = filtered.map((p, i) => `
+      $("products").innerHTML = filtered.map(p => `
         <div class="product">
-          <div class="emoji">${p.emoji}</div>
-          <h3>${p.name}</h3>
-          <div class="price">৳${p.price} / ${p.unit}</div>
-          <button onclick="addToCart('${p.name}')">+ কার্টে যোগ করুন</button>
-        </div>
-      `).join("") || "<p>কোনো পণ্য পাওয়া যায়নি।</p>";
+          <div class="emoji">${escapeHTML(p.emoji || "🛍️")}</div>
+          <h3>${escapeHTML(p.name)}</h3>
+          <div class="price">৳${money(p.price)} / ${escapeHTML(p.unit || "একক")}</div>
+          <button data-add="${escapeHTML(p.id)}">+ কার্টে যোগ করুন</button>
+        </div>`).join("") || "<p>কোনো পণ্য পাওয়া যায়নি।</p>";
+      $("products").querySelectorAll("[data-add]").forEach(btn => btn.addEventListener("click", () => addToCart(btn.dataset.add)));
     }
-
-    function addToCart(name) {
-      const product = products.find(p => p.name === name);
-      const item = cart.find(p => p.name === name);
-      if (item) item.qty++;
-      else cart.push({...product, qty:1});
+    function addToCart(id) {
+      const product = products.find(p => p.id === id);
+      if (!product) return;
+      const item = cart.find(p => p.id === id);
+      if (item) { item.qty++; item.price = Number(product.price); }
+      else cart.push({...product, price:Number(product.price), qty:1});
       renderCart();
     }
-
-    function changeQty(name, amount) {
-      const item = cart.find(p => p.name === name);
+    function changeQty(id, amount) {
+      const item = cart.find(p => p.id === id);
       if (item) item.qty += amount;
       cart = cart.filter(p => p.qty > 0);
       renderCart();
     }
-
     function renderCart() {
-      document.getElementById("cartItems").innerHTML = cart.length
-        ? cart.map(p => `
-          <div class="cart-row">
-            <span>${p.name} × ${p.qty}</span>
-            <span>
-              ৳${p.price * p.qty}
-              <button onclick="changeQty('${p.name}',-1)">−</button>
-              <button onclick="changeQty('${p.name}',1)">+</button>
-            </span>
-          </div>`).join("")
-        : "এখনো কোনো পণ্য যোগ করা হয়নি।";
+      $("cartItems").innerHTML = cart.length ? cart.map(p => `
+        <div class="cart-row">
+          <span>${escapeHTML(p.name)} × ${p.qty}</span>
+          <span>৳${money(p.price*p.qty)}
+            <button class="small-btn" data-minus="${escapeHTML(p.id)}">−</button>
+            <button class="small-btn" data-plus="${escapeHTML(p.id)}">+</button>
+          </span>
+        </div>`).join("") : "এখনো কোনো পণ্য যোগ করা হয়নি।";
+      $("cartItems").querySelectorAll("[data-minus]").forEach(b => b.addEventListener("click", () => changeQty(b.dataset.minus,-1)));
+      $("cartItems").querySelectorAll("[data-plus]").forEach(b => b.addEventListener("click", () => changeQty(b.dataset.plus,1)));
+      $("total").textContent = "মোট: ৳" + money(cart.reduce((sum,p) => sum + Number(p.price)*p.qty,0));
+    }
+    function renderAdminList() {
+      if (!isAdmin) return;
+      $("adminProductList").innerHTML = products.map(p => `
+        <div class="cart-row">
+          <span>${escapeHTML(p.emoji)} ${escapeHTML(p.name)} — ৳${money(p.price)}/${escapeHTML(p.unit)}</span>
+          <span><button class="small-btn" data-edit="${escapeHTML(p.id)}">সম্পাদনা</button>
+          <button class="small-btn danger" data-delete="${escapeHTML(p.id)}">মুছুন</button></span>
+        </div>`).join("") || "<p>কোনো পণ্য নেই।</p>";
+      $("adminProductList").querySelectorAll("[data-edit]").forEach(b => b.addEventListener("click", () => startEdit(b.dataset.edit)));
+      $("adminProductList").querySelectorAll("[data-delete]").forEach(b => b.addEventListener("click", () => removeProduct(b.dataset.delete)));
+    }
+    function startEdit(id) {
+      const p = products.find(x => x.id === id);
+      if (!p || !isAdmin) return;
+      $("editId").value = p.id;
+      $("pName").value = p.name;
+      $("pCategory").value = p.category;
+      $("pPrice").value = p.price;
+      $("pUnit").value = p.unit || "কেজি";
+      $("pEmoji").value = p.emoji || "🛍️";
+      $("productFormTitle").textContent = "পণ্যের তথ্য পরিবর্তন করুন";
+      $("adminStatus").textContent = "এখন সম্পাদনা মোড চালু।";
+      $("productFormTitle").scrollIntoView({behavior:"smooth",block:"center"});
+    }
+    function clearProductForm() {
+      $("productForm").reset();
+      $("editId").value = "";
+      $("pUnit").value = "কেজি";
+      $("pEmoji").value = "🛍️";
+      $("productFormTitle").textContent = "নতুন পণ্য যোগ করুন";
+    }
+    async function removeProduct(id) {
+      if (!isAdmin || !confirm("এই পণ্যটি মুছে ফেলবেন?")) return;
+      try {
+        if (id.startsWith("local-")) {
+          $("adminStatus").textContent = "এই পণ্য এখনো Firestore-এ নেই। আগে প্রাথমিক পণ্য যোগ করুন।";
+          return;
+        }
+        await deleteDoc(doc(db,"products",id));
+        cart = cart.filter(p => p.id !== id); renderCart();
+        $("adminStatus").textContent = "পণ্য মুছে ফেলা হয়েছে।";
+      } catch (err) { $("adminStatus").textContent = "মুছতে সমস্যা হয়েছে: " + err.message; }
+    }
+    $("adminToggle").addEventListener("click", () => {
+      $("adminArea").classList.toggle("admin-hidden");
+      $("adminToggle").textContent = $("adminArea").classList.contains("admin-hidden") ? "অ্যাডমিন লগইন" : "প্যানেল বন্ধ করুন";
+    });
+    $("loginForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      $("loginStatus").textContent = "লগইন হচ্ছে...";
+      try {
+        const credential = await signInWithEmailAndPassword(auth,$("adminEmail").value.trim(),$("adminPassword").value);
+        if (credential.user.uid !== ADMIN_UID) {
+          await signOut(auth);
+          $("loginStatus").textContent = "এই অ্যাকাউন্টটি অনুমোদিত অ্যাডমিন নয়।";
+        }
+      } catch (err) {
+        $("loginStatus").textContent = "লগইন হয়নি। ইমেইল/পাসওয়ার্ড পরীক্ষা করুন। (" + err.code + ")";
+      }
+    });
+    $("logoutButton").addEventListener("click", () => signOut(auth));
+    $("cancelEdit").addEventListener("click", clearProductForm);
+    $("productForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      if (!isAdmin || !auth.currentUser || auth.currentUser.uid !== ADMIN_UID) return;
+      const item = {
+        name:$("pName").value.trim(), category:$("pCategory").value,
+        price:Number($("pPrice").value), unit:$("pUnit").value.trim(),
+        emoji:$("pEmoji").value.trim()
+      };
+      if (!item.name || !item.unit || !Number.isFinite(item.price) || item.price < 0) {
+        $("adminStatus").textContent = "পণ্যের নাম, সঠিক দাম ও একক দিন।"; return;
+      }
+      try {
+        const id = $("editId").value;
+        if (id && !id.startsWith("local-")) await updateDoc(doc(db,"products",id),item);
+        else await addDoc(collection(db,"products"),item);
+        clearProductForm();
+        $("adminStatus").textContent = "পণ্য সফলভাবে সংরক্ষণ হয়েছে।";
+      } catch (err) { $("adminStatus").textContent = "সংরক্ষণ হয়নি: " + err.message; }
+    });
+    $("seedButton").addEventListener("click", async () => {
+      if (!isAdmin || !auth.currentUser || auth.currentUser.uid !== ADMIN_UID) return;
+      if (!confirm("Firestore-এ থাকা পণ্য অক্ষত রেখে প্রাথমিক পণ্যগুলো যোগ করা হবে। চালিয়ে যাবেন?")) return;
+      $("adminStatus").textContent = "প্রাথমিক পণ্য যোগ হচ্ছে...";
+      try {
+        const snap = await getDocs(collection(db,"products"));
+        if (!snap.empty) {
+          $("adminStatus").textContent = "Firestore-এ ইতিমধ্যে পণ্য আছে। নিরাপত্তার জন্য আর যোগ করা হয়নি।";
+          return;
+        }
+        const batch = writeBatch(db);
+        seedProducts.forEach(p => batch.set(doc(collection(db,"products")),p));
+        await batch.commit();
+        $("adminStatus").textContent = "প্রাথমিক ৯টি পণ্য যোগ হয়েছে।";
+      } catch (err) { $("adminStatus").textContent = "পণ্য যোগ হয়নি: " + err.message; }
+    });
 
-      const total = cart.reduce((sum,p) => sum + p.price*p.qty, 0);
-      document.getElementById("total").textContent = "মোট: ৳" + total;
+    onAuthStateChanged(auth, user => {
+      isAdmin = !!user && user.uid === ADMIN_UID;
+      $("loginArea").classList.toggle("admin-hidden",isAdmin);
+      $("manageArea").classList.toggle("admin-hidden",!isAdmin);
+      if (user && !isAdmin) {
+        $("loginStatus").textContent = "এই অ্যাকাউন্টটি অনুমোদিত অ্যাডমিন নয়।";
+        signOut(auth);
+      }
+      if (isAdmin) {
+        $("loginStatus").textContent = "";
+        if (unsubscribeProducts) unsubscribeProducts();
+        unsubscribeProducts = onSnapshot(collection(db,"products"), snap => {
+          products = snap.docs.map(d => ({...d.data(),id:d.id}));
+          setStatus(products.length ? "সর্বশেষ পণ্যের তথ্য দেখানো হচ্ছে।" : "ডেটাবেসে পণ্য নেই। অ্যাডমিন লগইন করে প্রাথমিক ৯টি পণ্য যোগ করুন।");
+          renderProducts(); renderCart(); renderAdminList();
+        }, err => $("adminStatus").textContent = "পণ্য লোডে সমস্যা: " + err.message);
+      } else {
+        if (unsubscribeProducts) { unsubscribeProducts(); unsubscribeProducts = null; }
+        loadPublicProducts();
+      }
+    });
+
+    async function loadPublicProducts() {
+      try {
+        const snap = await getDocs(collection(db,"products"));
+        if (snap.empty) {
+          products = [...seedProducts.map((p,i) => ({...p,id:"local-"+i}))];
+          setStatus("প্রাথমিক পণ্য দেখানো হচ্ছে। অনলাইন পণ্য চালু করতে অ্যাডমিন লগইন করে প্রাথমিক পণ্য যোগ করুন।");
+        } else {
+          products = snap.docs.map(d => ({...d.data(),id:d.id}));
+          setStatus("সর্বশেষ অনলাইন পণ্যের তথ্য দেখানো হচ্ছে।");
+        }
+        renderProducts(); renderCart();
+      } catch (err) {
+        products = [...seedProducts.map((p,i) => ({...p,id:"local-"+i}))];
+        setStatus("অনলাইন পণ্য লোড হয়নি; প্রাথমিক পণ্য দেখানো হচ্ছে। Firebase Rules ও সংযোগ পরীক্ষা করুন।");
+        renderProducts(); renderCart();
+        console.error(err);
+      }
     }
 
-    document.getElementById("orderForm").addEventListener("submit", function(e) {
+    $("gpsButton").addEventListener("click", () => {
+      const status = $("gpsStatus");
+      if (!navigator.geolocation) { status.textContent = "এই ব্রাউজারে লোকেশন সুবিধা নেই।"; return; }
+      status.textContent = "লোকেশন নেওয়া হচ্ছে; ব্রাউজারে অনুমতি দিন...";
+      navigator.geolocation.getCurrentPosition(pos => {
+        const lat = pos.coords.latitude, lon = pos.coords.longitude;
+        const mapUrl = `https://www.google.com/maps?q=${lat},${lon}`;
+        const addressBox = $("address");
+        const locationText = `আমার লোকেশন: ${mapUrl}`;
+        addressBox.value = addressBox.value.trim() ? addressBox.value.trim() + "\n" + locationText : locationText;
+        status.textContent = "লোকেশন ঠিকানায় যোগ হয়েছে।";
+      }, err => {
+        status.textContent = "লোকেশন নেওয়া যায়নি। অনুমতি দিন অথবা ঠিকানা লিখুন।";
+      }, {enableHighAccuracy:true,timeout:12000});
+    });
+
+    $("orderForm").addEventListener("submit", e => {
       e.preventDefault();
-      if (!cart.length) {
-        alert("প্রথমে কার্টে পণ্য যোগ করুন।");
-        return;
-      }
-
-      const customer = document.getElementById("customer").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const address = document.getElementById("address").value.trim();
-      const total = cart.reduce((sum,p) => sum + p.price*p.qty, 0);
-
+      if (!cart.length) { alert("প্রথমে কার্টে পণ্য যোগ করুন।"); return; }
+      const customer = $("customer").value.trim();
+      const phone = $("phone").value.trim();
+      const address = $("address").value.trim();
+      const total = cart.reduce((sum,p) => sum + Number(p.price)*p.qty,0);
       const message = [
-        "নতুন Fosholio অর্ডার",
-        "নাম: " + customer,
-        "ফোন: " + phone,
-        "ঠিকানা: " + address,
-        "পণ্য:",
-        ...cart.map(p => p.name + " × " + p.qty + " = ৳" + p.price*p.qty),
-        "মোট পণ্যমূল্য: ৳" + total,
-        "ডেলিভারি চার্জ আলাদাভাবে নিশ্চিত করতে হবে।"
+        "নতুন Fosholio অর্ডার","নাম: "+customer,"ফোন: "+phone,"ঠিকানা: "+address,"পণ্য:",
+        ...cart.map(p => p.name+" × "+p.qty+" = ৳"+(Number(p.price)*p.qty)),
+        "মোট পণ্যমূল্য: ৳"+total,"ডেলিভারি চার্জ আলাদাভাবে নিশ্চিত করতে হবে।"
       ].join("\n");
-
-      const whatsappNumber = "8801866109745";
-      window.open("https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(message), "_blank");
+      window.open("https://wa.me/8801866109745?text="+encodeURIComponent(message),"_blank");
     });
 
     renderProducts();
+    renderCart();
   </script>
 </body>
 </html>
